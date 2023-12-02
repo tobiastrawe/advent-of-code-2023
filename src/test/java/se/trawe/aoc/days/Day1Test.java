@@ -1,31 +1,34 @@
 package se.trawe.aoc.days;
 
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
+import se.trawe.aoc.Task;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class Day1Test {
     private final static TestData testData;
 
+    private static final Task day;
+
     static {
         try {
-            testData = TestUtil.getTestDataForDay(Day1.getInstance().getDayNumber());
+            int dayNumber = Integer.parseInt(Day1Test.class.getSimpleName().replaceAll("\\D", ""));
+            day = Task.getTaskByDayNumber(dayNumber);
+            testData = TestUtil.getTestDataForDay(dayNumber);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     @Test
-    void runTaskOne() throws Exception {
-        String result = Day1.getInstance().runTaskOne(testData.testDataTaskOne());
+    void runTaskOne() {
+        String result = day.runTaskOne(testData.testDataTaskOne());
         assertEquals(testData.expectedTaskOne(), result);
     }
 
     @Test
     void runTaskTwo() {
-        String result = Day1.getInstance().runTaskTwo(testData.testDataTaskTwo());
+        String result = day.runTaskTwo(testData.testDataTaskTwo());
         assertEquals(testData.expectedTaskTwo(), result);
     }
 }

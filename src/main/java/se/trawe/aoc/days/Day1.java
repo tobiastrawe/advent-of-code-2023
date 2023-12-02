@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Pattern;
 
 public class Day1 extends Task {
 
@@ -43,7 +42,6 @@ public class Day1 extends Task {
     @Override
     public String runTaskOne(List<String> input) {
         AtomicInteger result = new AtomicInteger();
-        Pattern p = Pattern.compile("^.*(\\d).*(\\d).*$");
         input.forEach(s -> {
             String numbers = s.replaceAll("\\D", "");
             String concat = "" + numbers.charAt(0) +

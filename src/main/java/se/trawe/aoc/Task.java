@@ -20,16 +20,29 @@ public abstract class Task implements Comparable<Task> {
         tasks.forEach(Task::run);
     }
 
-    protected abstract String runTaskOne(List<String> input);
-
-    protected abstract String runTaskTwo(List<String> input);
-
-    protected final void run() {
-        final List<String> input;
+    @SuppressWarnings("ConfusingArgumentToVarargsMethod")
+    public static Task getTaskByDayNumber(int i) {
         try {
-            input = InputGetter.getUrlContents(getDayNumber());
+            Class<?> c = Class.forName("se.trawe.aoc.days.Day" + i);
+            return (Task) c.getDeclaredMethod("getInstance", null).invoke(null, null);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public abstract String runTaskOne(List<String> input);
+
+    public abstract String runTaskTwo(List<String> input);
+
+    protected final void run() {
+        List<String> input = List.of();
+        int day = 0;
+        try {
+            day = getDayNumber();
+            input = InputGetter.getUrlContents(day);
+        } catch (Exception e) {
+            System.out.println("No input found or error while getting input for day: " + day);
+            System.exit(0);
         }
         Result result = new Result(this.getClass().getSimpleName(), runTaskOne(input), runTaskTwo(input));
         System.out.println(result);
