@@ -2,6 +2,9 @@ package se.trawe.aoc.days;
 
 import se.trawe.aoc.Task;
 
+import java.awt.*;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class Day2 extends Task {
@@ -26,6 +29,12 @@ public class Day2 extends Task {
 
     @Override
     public String runTaskOne(List<String> input) {
+        for(String game : input) {
+            String[] splitGame = game.split(":");
+            String gameId = splitGame[0].split(" ")[1];
+            String[] gameResults = splitGame[1].split(";");
+            int i = 0;
+        }
         return "no result";
     }
 
@@ -33,4 +42,6 @@ public class Day2 extends Task {
     public String runTaskTwo(List<String> input) {
         return "no result";
     }
+
+    private static HashMap<Integer, HashMap<String, Integer>> gamesMap = new HashMap<>();
 }

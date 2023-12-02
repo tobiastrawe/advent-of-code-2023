@@ -16,7 +16,7 @@ public class TestUtil {
         LinkedHashMap<String, LinkedHashMap<String, String>> dataMap = yml.load(inputStream);
         LinkedHashMap<String, String> taskOneMap = dataMap.get("task-one");
         LinkedHashMap<String, String> taskTwoMap = dataMap.get("task-two");
-        return new TestData(Arrays.stream(taskOneMap.get("data").split(" ")).toList(), taskOneMap.get("expected"),
+        return new TestData(Arrays.stream(taskOneMap.get("data").split("\n")).toList(), taskOneMap.get("expected"),
                 Arrays.stream(taskTwoMap.get("data").split(" ")).toList(), taskTwoMap.get("expected"));
     }
 }
