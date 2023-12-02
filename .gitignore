@@ -13,4 +13,4 @@ target/
 *.ipr
 
 ### Session cookie ###
-session.txt
+src/main/resources/session.txt
