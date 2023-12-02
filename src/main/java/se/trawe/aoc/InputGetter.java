@@ -23,7 +23,7 @@ public class InputGetter {
         try {
             URL url = new URI("https://adventofcode.com/2023/day/" + i + "/input").toURL();
             URLConnection urlConnection = url.openConnection();
-            urlConnection.setRequestProperty("Cookie", "session=" + session);
+            urlConnection.setRequestProperty("Cookie", session);
             return new BufferedReader(new InputStreamReader(urlConnection.getInputStream())).lines().toList();
         } catch (Exception e) {
             throw new RuntimeException(e);
