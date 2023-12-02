@@ -1,23 +1,18 @@
 package se.trawe.aoc.days;
 
-import se.trawe.aoc.Result;
 import se.trawe.aoc.Task;
 
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 public class Day1 extends Task {
 
     private final static Day1 instance;
 
     private static final Map<String, String> index = new HashMap<>();
-
 
     static {
         instance = new Day1();
@@ -33,6 +28,9 @@ public class Day1 extends Task {
         index.put("nine", "9");
     }
 
+    private Day1() {
+    }
+
     @SuppressWarnings(value = "unused")
     public static Day1 getInstance() {
         return instance;
@@ -42,26 +40,23 @@ public class Day1 extends Task {
         new Day1().run();
     }
 
-    private Day1() {}
-
-    //TODO: code task one
-    public int runTestOne(String input) {
+    @Override
+    public String runTaskOne(List<String> input) {
         AtomicInteger result = new AtomicInteger();
         Pattern p = Pattern.compile("^.*(\\d).*(\\d).*$");
-        Stream<String> stringStream = input.lines();
-        stringStream.forEach(s -> {
+        input.forEach(s -> {
             String numbers = s.replaceAll("\\D", "");
             String concat = "" + numbers.charAt(0) +
-                numbers.charAt(numbers.length() - 1);
+                    numbers.charAt(numbers.length() - 1);
             result.addAndGet(Integer.parseInt(concat));
         });
-        return result.get();
+        return result.toString();
     }
 
-    //TODO: code task two
-    public int runTestTwo(String input) {
+    @Override
+    public String runTaskTwo(List<String> input) {
         int result = 0;
-        for (String s : input.lines().toList()) {
+        for (String s : input) {
             StringBuilder combinedNumbers = new StringBuilder();
             for (int i = 0; i <= s.length(); i++) {
                 int c = Character.getNumericValue(s.charAt(i));
@@ -75,7 +70,7 @@ public class Day1 extends Task {
                     break;
                 }
             }
-            for (int i = s.length() -1; i >= 0; i--) {
+            for (int i = s.length() - 1; i >= 0; i--) {
                 int c = Character.getNumericValue(s.charAt(i));
                 if (c <= 9 && c >= 0) {
                     combinedNumbers.append(c);
@@ -89,7 +84,7 @@ public class Day1 extends Task {
             }
             result += Integer.parseInt(combinedNumbers.toString());
         }
-        return result;
+        return String.valueOf(result);
     }
 
     private String findNumberFromString(String s) {
@@ -100,12 +95,4 @@ public class Day1 extends Task {
         }
         return null;
     }
-
-    @Override
-    protected void run() {
-        Result result = new Result(this.getClass().getSimpleName(), String.valueOf(runTestOne(input)), String.valueOf(runTestTwo(input)));
-        System.out.println(result);
-    }
-
-    private static String input = "";
 }

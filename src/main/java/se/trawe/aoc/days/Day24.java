@@ -1,7 +1,8 @@
 package se.trawe.aoc.days;
 
-import se.trawe.aoc.Result;
 import se.trawe.aoc.Task;
+
+import java.util.List;
 
 public class Day24 extends Task {
 
@@ -9,6 +10,9 @@ public class Day24 extends Task {
 
     static {
         instance = new Day24();
+    }
+
+    private Day24() {
     }
 
     @SuppressWarnings(value = "unused")
@@ -20,21 +24,15 @@ public class Day24 extends Task {
         new Day24().run();
     }
 
-    private Day24() {}
-
-    //TODO: code task one
-    public String runTestOne() {
-        return "no result";
-    }
-
-    //TODO: code task two
-    public String runTestTwo() {
+    @Override
+    public String runTaskOne(List<String> input) {
         return "no result";
     }
 
     @Override
-    protected void run() {
-        Result result = new Result(this.getClass().getSimpleName(), runTestOne(), runTestTwo());
-        System.out.println(result);
+    public String runTaskTwo(List<String> input) {
+        return "no result";
     }
+
+
 }

@@ -4,24 +4,24 @@ import se.trawe.aoc.Task;
 
 import java.util.List;
 
-public class Day2 extends Task {
+public class Day25 extends Task {
 
-    private final static Day2 instance;
+    private final static Day25 instance;
 
     static {
-        instance = new Day2();
+        instance = new Day25();
     }
 
-    private Day2() {
+    private Day25() {
     }
 
     @SuppressWarnings(value = "unused")
-    public static Day2 getInstance() {
+    public static Day25 getInstance() {
         return instance;
     }
 
     public static void main(String[] args) {
-        new Day2().run();
+        new Day25().run();
     }
 
     @Override
@@ -33,4 +33,6 @@ public class Day2 extends Task {
     public String runTaskTwo(List<String> input) {
         return "no result";
     }
+
+
 }
