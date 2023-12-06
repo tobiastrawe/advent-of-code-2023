@@ -6,13 +6,13 @@ import se.trawe.aoc.TestUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class Day4Test {
+class Day22Test {
     private final static TestData testData;
     private static final Task day;
 
     static {
         try {
-            int dayNumber = Integer.parseInt(Day4Test.class.getSimpleName().replaceAll("\\D", ""));
+            int dayNumber = Integer.parseInt(Day22Test.class.getSimpleName().replaceAll("\\D", ""));
             day = Task.getTaskByDayNumber(dayNumber);
             testData = TestUtil.getTestDataForDay(dayNumber);
         } catch (Exception e) {

@@ -1,5 +1,7 @@
 package se.trawe.aoc;
 
+import se.trawe.aoc.days.Task;
+
 public class AdventOfCodeMain {
 
     public static void main(String[] args) {

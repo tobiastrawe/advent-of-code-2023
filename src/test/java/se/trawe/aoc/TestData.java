@@ -1,4 +1,4 @@
-package se.trawe.aoc.days;
+package se.trawe.aoc;
 
 import java.util.List;
 

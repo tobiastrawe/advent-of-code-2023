@@ -1,7 +1,5 @@
 package se.trawe.aoc.days;
 
-import se.trawe.aoc.Task;
-
 import java.util.List;
 
 public class Day25 extends Task {
@@ -25,12 +23,12 @@ public class Day25 extends Task {
     }
 
     @Override
-    public String runTaskOne(List<String> input) {
+    protected String runTaskOne(List<String> input) {
         return "no result";
     }
 
     @Override
-    public String runTaskTwo(List<String> input) {
+    protected String runTaskTwo(List<String> input) {
         return "no result";
     }
 

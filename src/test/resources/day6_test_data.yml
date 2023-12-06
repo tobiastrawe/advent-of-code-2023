@@ -1,0 +1,9 @@
+data: |
+  Time:      7  15   30
+  Distance:  9  40  200
+
+task-one:
+  expected: "288"
+
+task-two:
+  expected: "71503"

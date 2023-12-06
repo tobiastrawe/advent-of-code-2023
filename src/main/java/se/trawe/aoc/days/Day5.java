@@ -1,7 +1,5 @@
 package se.trawe.aoc.days;
 
-import se.trawe.aoc.Task;
-
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,108 +24,46 @@ public class Day5 extends Task {
         new Day5().run();
     }
 
-    private static class Seed {
-
-        private long seed, soil, fertilizer, water, light, temperature, humidity, location;
-
-        public Seed(long seed) {
-            this.seed = seed;
-        }
-
-        public long getSeed() {
-            return seed;
-        }
-
-        public long getSoil() {
-            return soil;
-        }
-
-        public long getFertilizer() {
-            return fertilizer;
-        }
-
-        public long getWater() {
-            return water;
-        }
-
-        public long getLight() {
-            return light;
-        }
-
-        public long getTemperature() {
-            return temperature;
-        }
-
-        public long getHumidity() {
-            return humidity;
-        }
-
-        public long getLocation() {
-            return location;
-        }
-
-        public void setSoil(long soil) {
-            this.soil = soil;
-        }
-
-        public void setFertilizer(long fertilizer) {
-            this.fertilizer = fertilizer;
-        }
-
-        public void setWater(long water) {
-            this.water = water;
-        }
-
-        public void setLight(long light) {
-            this.light = light;
-        }
-
-        public void setTemperature(long temperature) {
-            this.temperature = temperature;
-        }
-
-        public void setHumidity(long humidity) {
-            this.humidity = humidity;
-        }
-
-        public void setLocation(long location) {
-            this.location = location;
-        }
+    private record RangeMap(long source, long destination, long range) {
     }
 
-    Set<Long> seeds = new HashSet<>();
-    List<Long> seedToSoilMap = new HashMap<>();
-    List<Long> soilToFertilizerMap = new HashMap<>();
-    List<Long> fertilizerToWaterMap = new HashMap<>();
-    List<Long> waterToLightMap = new HashMap<>();
-    List<Long> lightToTemperatureMap = new HashMap<>();
-    List<Long> temperatureToHumidityMap = new HashMap<>();
-    List<Long> humidityToLocationMap = new HashMap<>();
+    private record Range(long from, long to) {}
+
+    private static final Set<Range> seeds = new HashSet<>();
+    private static final Set<RangeMap> seedToSoilRanges = new HashSet<>();
+    private static final Set<RangeMap> soilToFertilizerRanges = new HashSet<>();
+    private static final Set<RangeMap> fertilizerToWaterRanges = new HashSet<>();
+    private static final Set<RangeMap> waterToLightRanges = new HashSet<>();
+    private static final Set<RangeMap> lightToTemperatureRanges = new HashSet<>();
+    private static final Set<RangeMap> temperatureToHumidityRanges = new HashSet<>();
+    private static final Set<RangeMap> humidityToLocationRanges = new HashSet<>();
 
     @Override
-    public String runTaskOne(List<String> input) {
-        List<Long, Long> activeMap = null;
+    protected String runTaskOne(List<String> input) {
+        Set<RangeMap> activeList = null;
         for (String line : input) {
             if (line.startsWith("seeds")) {
-                Pattern pattern = Pattern.compile("\\d+");
+                Pattern pattern = Pattern.compile("(\\d+)\\s(\\d+)");
                 Matcher m = pattern.matcher(line);
                 while (m.find()) {
-                    seeds.add(Long.parseLong(m.group()));
+                    long from = Long.parseLong(m.group(1));
+                    long to = from + Long.parseLong(m.group(2));
+                    seeds.add(new Range(from, to));
                 }
             } else if (line.contains("seed-to-soil")) {
-                activeMap = seedToSoilMap;
+                activeList = seedToSoilRanges;
             } else if (line.contains("soil-to-fertilizer")) {
-                activeMap = soilToFertilizerMap;
+                activeList = soilToFertilizerRanges;
             } else if (line.contains("fertilizer-to-water")) {
-                activeMap = fertilizerToWaterMap;
+                activeList = fertilizerToWaterRanges;
             } else if (line.contains("water-to-light")) {
-                activeMap = waterToLightMap;
+                activeList = waterToLightRanges;
             } else if (line.contains("light-to-temperature")) {
-                activeMap = lightToTemperatureMap;
+                activeList = lightToTemperatureRanges;
             } else if (line.contains("temperature-to-humidity")) {
-                activeMap = temperatureToHumidityMap;
+                activeList = temperatureToHumidityRanges;
             } else if (line.contains("humidity-to-location")) {
-                activeMap = humidityToLocationMap;
+                activeList = humidityToLocationRanges;
             } else {
                 Pattern numbersPattern = Pattern.compile("\\s*(\\d+)\\s+(\\d+)\\s+(\\d+)");
                 Matcher m = numbersPattern.matcher(line);
@@ -135,35 +71,63 @@ public class Day5 extends Task {
                     long destination = Long.parseLong(m.group(1));
                     long source = Long.parseLong(m.group(2));
                     long range = Long.parseLong(m.group(3));
-                    for (long i = 0; i < range; i++) {
-                        if (activeMap != null) {
-                            activeMap.put(source + i, destination + i);
-                        } else {
-                            throw new NullPointerException("map not initialized");
-                        }
-                    }
+                    assert activeList != null;
+                    activeList.add(new RangeMap(source, destination, range));
                 }
             }
         }
         long lowestLocation = Long.MAX_VALUE;
-        for (Long seed : seeds) {
-            long soil = seedToSoilMap.getOrDefault(seed, seed);
-            long fertilizer = soilToFertilizerMap.getOrDefault(soil, soil);
-            long water = fertilizerToWaterMap.getOrDefault(fertilizer, fertilizer);
-            long light = waterToLightMap.getOrDefault(water, water);
-            long temperature = lightToTemperatureMap.getOrDefault(light, light);
-            long humidity = temperatureToHumidityMap.getOrDefault(temperature, temperature);
-            long location = humidityToLocationMap.getOrDefault(humidity, humidity);
-            if (location < lowestLocation) {
+        for (int location = 0;; location++) {
+            long humidity = findInRangesReverse(location, humidityToLocationRanges);
+            long temperature = findInRangesReverse(humidity, temperatureToHumidityRanges);
+            long light = findInRangesReverse(temperature, lightToTemperatureRanges);
+            long water = findInRangesReverse(light, waterToLightRanges);
+            long fertilizer = findInRangesReverse(water, fertilizerToWaterRanges);
+            long soil = findInRangesReverse(fertilizer, soilToFertilizerRanges);
+            long seed = findInRangesReverse(soil, seedToSoilRanges);
+            if (seeds.stream().anyMatch(s -> seed >= s.from && seed <= s.to)) {
                 lowestLocation = location;
+                break;
             }
         }
         return String.valueOf(lowestLocation);
     }
 
+    private Set<Range> findIntersectInRange(Range fromRange, Set<RangeMap> rangeMapSet) {
+
+        for(RangeMap rangeMap : rangeMapSet) {
+            Range toRange = new Range(rangeMap.source, rangeMap.source + rangeMap.range);
+            if (fromRange.from >= toRange.from && fromRange.from <= toRange.to) {
+                System.out.println("range " + fromRange + " is inside " + toRange);
+
+            } else {
+                System.out.println("range " + fromRange + " is not within " + toRange);
+            }
+        }
+        return null;
+    }
+
+    private long findInRanges(long source, Set<RangeMap> ranges) {
+        for (RangeMap range : ranges) {
+            if (source >= range.destination && source <= range.destination + range.range) {
+                return (source - range.destination) + range.source;
+            }
+        }
+      return source;
+    }
+
+    private long findInRangesReverse(long source, Set<RangeMap> ranges) {
+        for (RangeMap range : ranges) {
+            if (source >= range.destination && source <= range.destination + range.range) {
+                return (source - range.destination) + range.source;
+            }
+        }
+      return source;
+    }
+
     @Override
-    public String runTaskTwo(List<String> input) {
-        return "no result";
+    protected String runTaskTwo(List<String> input) {
+        return runTaskOne(input);
     }
 
 

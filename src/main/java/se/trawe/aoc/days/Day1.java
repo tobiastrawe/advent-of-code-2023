@@ -1,7 +1,5 @@
 package se.trawe.aoc.days;
 
-import se.trawe.aoc.Task;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +38,7 @@ public class Day1 extends Task {
     }
 
     @Override
-    public String runTaskOne(List<String> input) {
+    protected String runTaskOne(List<String> input) {
         AtomicInteger result = new AtomicInteger();
         input.forEach(s -> {
             String numbers = s.replaceAll("\\D", "");
@@ -52,7 +50,7 @@ public class Day1 extends Task {
     }
 
     @Override
-    public String runTaskTwo(List<String> input) {
+    protected String runTaskTwo(List<String> input) {
         int result = 0;
         for (String s : input) {
             StringBuilder combinedNumbers = new StringBuilder();

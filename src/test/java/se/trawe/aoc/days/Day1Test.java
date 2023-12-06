@@ -1,13 +1,13 @@
 package se.trawe.aoc.days;
 
 import org.junit.jupiter.api.Test;
-import se.trawe.aoc.Task;
+import se.trawe.aoc.TestData;
+import se.trawe.aoc.TestUtil;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class Day1Test {
     private final static TestData testData;
-
     private static final Task day;
 
     static {

@@ -1,4 +1,7 @@
-package se.trawe.aoc;
+package se.trawe.aoc.days;
+
+import se.trawe.aoc.InputGetter;
+import se.trawe.aoc.Result;
 
 import java.util.List;
 import java.util.SortedSet;
@@ -12,7 +15,7 @@ public abstract class Task implements Comparable<Task> {
 
     private static final SortedSet<Task> tasks = new TreeSet<>();
 
-    protected static void register(Task task) {
+    public static void register(Task task) {
         tasks.add(task);
     }
 
@@ -30,16 +33,19 @@ public abstract class Task implements Comparable<Task> {
         }
     }
 
-    public abstract String runTaskOne(List<String> input);
+    protected abstract String runTaskOne(List<String> input);
 
-    public abstract String runTaskTwo(List<String> input);
+    protected abstract String runTaskTwo(List<String> input);
 
     protected final void run() {
-        List<String> input = List.of();
+        List<String> input = null;
         int day = 0;
         try {
             day = getDayNumber();
-            input = InputGetter.getUrlContents(day);
+            input = InputGetter.getFileContents(day);
+            if (input == null) {
+                input = InputGetter.getUrlContents(day);
+            }
         } catch (Exception e) {
             System.out.println("No input found or error while getting input for day: " + day);
             System.exit(0);

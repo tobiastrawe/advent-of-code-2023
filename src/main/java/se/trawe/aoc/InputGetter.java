@@ -1,9 +1,13 @@
 package se.trawe.aoc;
 
+import org.yaml.snakeyaml.Yaml;
+
 import java.io.*;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,6 +21,16 @@ public class InputGetter {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static List<String> getFileContents(int day) {
+        InputStream inputStream = InputGetter.class.getClassLoader().getResourceAsStream("day" + day + "_data.yml");
+        if (inputStream == null) {
+            return null;
+        }
+        Yaml yml = new Yaml();
+        LinkedHashMap<String, String> loadedData = yml.load(inputStream);
+        return Arrays.stream(loadedData.get("data").split("\n")).toList();
     }
 
     public static List<String> getUrlContents(int i) {

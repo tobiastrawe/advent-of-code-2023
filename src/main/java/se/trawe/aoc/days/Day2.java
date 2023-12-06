@@ -1,7 +1,5 @@
 package se.trawe.aoc.days;
 
-import se.trawe.aoc.Task;
-
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,7 +35,7 @@ public class Day2 extends Task {
     private static final int maxBlue = 14;
 
     @Override
-    public String runTaskOne(List<String> input) {
+    protected String runTaskOne(List<String> input) {
         int sumOfValidGames = 0;
         for(String game : input) {
             String[] splitGame = game.split(":");
@@ -115,7 +113,7 @@ public class Day2 extends Task {
     }
 
     @Override
-    public String runTaskTwo(List<String> input) {
+    protected String runTaskTwo(List<String> input) {
         int sumOfValidGames = 0;
         for(String game : input) {
             String[] splitGame = game.split(":");

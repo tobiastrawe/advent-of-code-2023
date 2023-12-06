@@ -1,1 +1,1 @@
-your advent of code cookie session here
+session=53616c7465645f5f9f74eea98f2a6627f10e8a0d931cc3f2b7c06ff1c560808db9c781cfd3e0bff1cd933152ec4e954bc92b32e55e0a9e8503d09ecfc35c4bf1

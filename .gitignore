@@ -14,3 +14,6 @@ target/
 
 ### Session cookie ###
 src/main/resources/session.txt
+
+### Input files for days ###
+src/main/resources/day[0-9]_data.yml

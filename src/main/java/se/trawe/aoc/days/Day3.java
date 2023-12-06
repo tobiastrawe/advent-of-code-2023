@@ -1,7 +1,5 @@
 package se.trawe.aoc.days;
 
-import se.trawe.aoc.Task;
-
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,7 +27,7 @@ public class Day3 extends Task {
     public record Coordinate(int x, int y) {}
 
     @Override
-    public String runTaskOne(List<String> input) {
+    protected String runTaskOne(List<String> input) {
         Set<Coordinate> coordinates = generateCoordinates(input, "[\\D]");
         int sum = 0;
         for (String line : input) {
@@ -72,7 +70,7 @@ public class Day3 extends Task {
     }
 
     @Override
-    public String runTaskTwo(List<String> input) {
+    protected String runTaskTwo(List<String> input) {
         Set<Coordinate> coordinates = generateCoordinates(input, "\\*");
         Map<Coordinate, String> numberCoordinates = new HashMap<>();
         int sum = 0;

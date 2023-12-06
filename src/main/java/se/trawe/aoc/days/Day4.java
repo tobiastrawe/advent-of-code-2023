@@ -1,7 +1,5 @@
 package se.trawe.aoc.days;
 
-import se.trawe.aoc.Task;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -28,9 +26,8 @@ public class Day4 extends Task {
     }
 
     @Override
-    public String runTaskOne(List<String> input) {
+    protected String runTaskOne(List<String> input) {
         int total = getCards(input).values().stream().mapToInt(Integer::intValue).sum();
-
         return String.valueOf(total);
     }
 
@@ -52,7 +49,7 @@ public class Day4 extends Task {
     }
 
     @Override
-    public String runTaskTwo(List<String> input) {
+    protected String runTaskTwo(List<String> input) {
         HashMap<Integer, Integer> pointsOfCards = getCards(input);
         HashMap<Integer, Integer> numberOfCards = new HashMap<>();
         List<Integer> winningCards = new java.util.ArrayList<>(List.of());
