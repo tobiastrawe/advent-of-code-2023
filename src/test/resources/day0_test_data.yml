@@ -1,9 +1,7 @@
 data: |
 
 task-one:
-  expected:
-  data: |
+  expected: ""
 
 task-two:
-  expected:
-  data: |
+  expected: ""
