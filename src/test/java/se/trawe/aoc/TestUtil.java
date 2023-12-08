@@ -34,12 +34,15 @@ public class TestUtil {
         LinkedHashMap<String, String> taskTwoMap = (LinkedHashMap<String, String>) dataMap.get(taskTwo);
         List<String> testDataTaskOne;
         List<String> testDataTaskTwo;
-        if (dataMap.containsKey(data)) {
-            testDataTaskOne = Arrays.stream(((String) dataMap.get(data)).split(testStringSplitter)).toList();
-            testDataTaskTwo = testDataTaskOne;
-        } else {
+        if (taskOneMap.containsKey(data)) {
             testDataTaskOne = Arrays.stream(taskOneMap.get(data).split(testStringSplitter)).toList();
+        } else {
+            testDataTaskOne = Arrays.stream(((String) dataMap.get(data)).split(testStringSplitter)).toList();
+        }
+        if (taskTwoMap.containsKey(data)) {
             testDataTaskTwo = Arrays.stream(taskTwoMap.get(data).split(testStringSplitter)).toList();
+        } else {
+            testDataTaskTwo = testDataTaskOne;
         }
         return new TestData(testDataTaskOne, taskOneMap.get(expected),
                 testDataTaskTwo, taskTwoMap.get(expected));

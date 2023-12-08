@@ -50,8 +50,11 @@ public abstract class Task implements Comparable<Task> {
             System.out.println("No input found or error while getting input for day: " + day);
             System.exit(0);
         }
+        long start = System.currentTimeMillis();
         Result result = new Result(this.getClass().getSimpleName(), runTaskOne(input), runTaskTwo(input));
+        long end = System.currentTimeMillis();
         System.out.println(result);
+        System.out.println("Execution time: " + (end - start) + "ms");
     }
 
     public int getDayNumber() throws Exception {
