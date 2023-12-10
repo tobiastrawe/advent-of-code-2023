@@ -39,6 +39,7 @@ public class MathUtil {
         if (x > y)
             return gcd((x - y) >> 1, y);
 
+        //noinspection SuspiciousNameCombination
         return gcd((y - x) >> 1, x);
     }
 }

@@ -27,7 +27,7 @@ public class Day7 extends Task {
         FIVE(5), FOUR(4), THREE(3), TWO(2);
 
 
-        private int cardValue;
+        private final int cardValue;
 
         CamelCard(int value) {
             this.cardValue = value;
@@ -66,7 +66,7 @@ public class Day7 extends Task {
         ONE_PAIR(2),
         HIGH_CARD(1);
 
-        private int value;
+        private final int value;
 
         TypeOfHand(int value) {
             this.value = value;
@@ -80,7 +80,7 @@ public class Day7 extends Task {
     record Hand(List<CamelCard> hand, long bid, TypeOfHand typeOfHand) {
     }
 
-    class HandComparator implements Comparator<Hand> {
+    static class HandComparator implements Comparator<Hand> {
         private final boolean jokerRules;
 
         HandComparator() {
@@ -151,12 +151,7 @@ public class Day7 extends Task {
         } else {
             return getTypeOfHand(cards);
         }
-        return possibleTypesOfHand.stream().max(new Comparator<TypeOfHand>() {
-            @Override
-            public int compare(TypeOfHand o1, TypeOfHand o2) {
-                return Integer.compare(o1.value, o2.value);
-            }
-        }).orElse(TypeOfHand.HIGH_CARD);
+        return possibleTypesOfHand.stream().max(Comparator.comparingInt(o -> o.value)).orElse(TypeOfHand.HIGH_CARD);
     }
 
     private List<CamelCard> getCards(String s) {

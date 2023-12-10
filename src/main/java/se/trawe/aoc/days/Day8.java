@@ -48,17 +48,15 @@ public class Day8 extends Task {
         Set<String> positions = nodeMap.keySet().stream().filter(p -> p.endsWith(startNodeEnding)).collect(Collectors.toSet());
         String[] splitStructions = instructions.split("");
         Iterator<String> iterable = Arrays.stream(splitStructions).iterator();
-        String instruction = "";
+        String instruction;
         int counter = 0;
         long numberOfSteps = 1;
 
         while (!positions.isEmpty()) {
-            if (iterable.hasNext()) {
-                instruction = iterable.next();
-            } else {
+            if (!iterable.hasNext()) {
                 iterable = Arrays.stream(splitStructions).iterator();
-                instruction = iterable.next();
             }
+            instruction = iterable.next();
             Set<String> newPositions = new HashSet<>();
             for (String s : positions) {
                 if (s.endsWith("Z")) {

@@ -33,7 +33,7 @@ public class Day4 extends Task {
 
     private HashMap<Integer, Integer> getCards(List<String> input) {
         Pattern isNumber = Pattern.compile("\\d+");
-        HashMap<Integer, Integer> cards = new HashMap<Integer, Integer>();
+        HashMap<Integer, Integer> cards = new HashMap<>();
         int cardNumber = 0;
         for (String card : input) {
             int result = 0;

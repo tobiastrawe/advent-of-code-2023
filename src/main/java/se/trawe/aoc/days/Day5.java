@@ -76,7 +76,7 @@ public class Day5 extends Task {
                 }
             }
         }
-        long lowestLocation = Long.MAX_VALUE;
+        long lowestLocation;
         for (int location = 0;; location++) {
             long humidity = findInRangesReverse(location, humidityToLocationRanges);
             long temperature = findInRangesReverse(humidity, temperatureToHumidityRanges);

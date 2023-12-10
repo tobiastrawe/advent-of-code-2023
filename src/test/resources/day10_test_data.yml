@@ -1,0 +1,12 @@
+data: |
+  ..F7.
+  .FJ|.
+  SJ.L7
+  |F--J
+  LJ...
+
+task-one:
+  expected: "8"
+
+task-two:
+  expected: ""
