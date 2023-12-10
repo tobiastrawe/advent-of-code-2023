@@ -1,9 +1,7 @@
 package se.trawe.aoc.days;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Day10 extends Task {
 
@@ -31,11 +29,11 @@ public class Day10 extends Task {
         SOUTH(0, 1),
         WEST(-1, 0);
 
-        private final int x, y;
+        private final int deltaX, deltaY;
 
-        Cardinal(int x, int y) {
-            this.x = x;
-            this.y = y;
+        Cardinal(int deltaX, int deltaY) {
+            this.deltaX = deltaX;
+            this.deltaY = deltaY;
         }
     }
 
@@ -49,17 +47,17 @@ public class Day10 extends Task {
         }
     }
 
-    protected record direction (Cardinal x, Cardinal y) {}
+    protected record Direction(Cardinal directionOne, Cardinal directionTwo) {}
 
-    private static HashMap<Character, direction> directionMapper = new HashMap<>();
+    private static HashMap<Character, Direction> directionMapper = new HashMap<>();
 
     static {
-        directionMapper.put('|', new direction(Cardinal.NORTH, Cardinal.SOUTH));
-        directionMapper.put('-', new direction(Cardinal.EAST, Cardinal.WEST));
-        directionMapper.put('L', new direction(Cardinal.NORTH, Cardinal.EAST));
-        directionMapper.put('J', new direction(Cardinal.NORTH, Cardinal.WEST));
-        directionMapper.put('7', new direction(Cardinal.SOUTH, Cardinal.WEST));
-        directionMapper.put('F', new direction(Cardinal.SOUTH, Cardinal.EAST));
+        directionMapper.put('|', new Direction(Cardinal.NORTH, Cardinal.SOUTH));
+        directionMapper.put('-', new Direction(Cardinal.EAST, Cardinal.WEST));
+        directionMapper.put('L', new Direction(Cardinal.NORTH, Cardinal.EAST));
+        directionMapper.put('J', new Direction(Cardinal.NORTH, Cardinal.WEST));
+        directionMapper.put('7', new Direction(Cardinal.SOUTH, Cardinal.WEST));
+        directionMapper.put('F', new Direction(Cardinal.SOUTH, Cardinal.EAST));
 
     }
 
@@ -83,12 +81,14 @@ public class Day10 extends Task {
         var currentX = startX;
         var currentY = startY;
         Cardinal cardinalToIgnore = null;
+        // determine starting direction
         for (Cardinal cardinal : Cardinal.values()) {
             try {
-                if (doesSquareContainCardinal(pipeGrid[currentY + cardinal.y][currentX + cardinal.x], cardinal)) {
+                if (doesSquareContainCardinal(pipeGrid[currentY + cardinal.deltaY][currentX + cardinal.deltaX], getOppositeCardinal(cardinal))) {
                     cardinalToIgnore = getOppositeCardinal(cardinal);
-                    currentX += cardinal.x;
-                    currentY += cardinal.y;
+                    currentX += cardinal.deltaX;
+                    currentY += cardinal.deltaY;
+                    steps += 1;
                     break;
                 }
             } catch (IndexOutOfBoundsException ignored) {
@@ -96,15 +96,15 @@ public class Day10 extends Task {
         }
         while (true) {
             char current = pipeGrid[currentY][currentX];
-            direction dir = directionMapper.get(current);
-            Cardinal directionOne = dir.x;
-            Cardinal directionTwo = dir.y;
-            if (!directionOne.equals(cardinalToIgnore)) {
-                currentX += directionOne.x;
-                currentY += directionOne.y;
-            } else if (!directionTwo.equals(cardinalToIgnore)) {
-                currentX += directionTwo.x;
-                currentY += directionTwo.y;
+            Direction dir = directionMapper.get(current);
+            if (!dir.directionOne.equals(cardinalToIgnore)) {
+                cardinalToIgnore = getOppositeCardinal(dir.directionOne);
+                currentX += dir.directionOne.deltaX;
+                currentY += dir.directionOne.deltaY;
+            } else if (!dir.directionTwo.equals(cardinalToIgnore)) {
+                cardinalToIgnore = getOppositeCardinal(dir.directionTwo);
+                currentX += dir.directionTwo.deltaX;
+                currentY += dir.directionTwo.deltaY;
             } else {
                 throw new RuntimeException("what?");
             }
@@ -134,8 +134,8 @@ public class Day10 extends Task {
         } else if (c == 'S') {
             return true;
         }
-        direction d = directionMapper.get(c);
-        return d.x.equals(cardinal) || d.y.equals(cardinal);
+        Direction d = directionMapper.get(c);
+        return d.directionOne.equals(cardinal) || d.directionTwo.equals(cardinal);
     }
 
     @Override
