@@ -16,15 +16,6 @@ public class TestUtil {
     private static final String expected = "expected";
     private static final String data = "data";
 
-    public static Task getTaskForDay(int dayNumber) {
-        try {
-            Class<?> c = Class.forName("se.trawe.aoc.days.Day" + dayNumber);
-            return (Task) c.getDeclaredMethod("getInstance", null).invoke(null, null);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @SuppressWarnings("unchecked")
     public static TestData getTestDataForDay(int day) {
         Yaml yml = new Yaml();

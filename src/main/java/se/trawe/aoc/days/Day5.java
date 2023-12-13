@@ -93,29 +93,6 @@ public class Day5 extends Task {
         return String.valueOf(lowestLocation);
     }
 
-    private Set<Range> findIntersectInRange(Range fromRange, Set<RangeMap> rangeMapSet) {
-
-        for(RangeMap rangeMap : rangeMapSet) {
-            Range toRange = new Range(rangeMap.source, rangeMap.source + rangeMap.range);
-            if (fromRange.from >= toRange.from && fromRange.from <= toRange.to) {
-                System.out.println("range " + fromRange + " is inside " + toRange);
-
-            } else {
-                System.out.println("range " + fromRange + " is not within " + toRange);
-            }
-        }
-        return null;
-    }
-
-    private long findInRanges(long source, Set<RangeMap> ranges) {
-        for (RangeMap range : ranges) {
-            if (source >= range.destination && source <= range.destination + range.range) {
-                return (source - range.destination) + range.source;
-            }
-        }
-      return source;
-    }
-
     private long findInRangesReverse(long source, Set<RangeMap> ranges) {
         for (RangeMap range : ranges) {
             if (source >= range.destination && source <= range.destination + range.range) {

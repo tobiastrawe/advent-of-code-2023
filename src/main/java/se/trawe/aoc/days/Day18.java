@@ -14,6 +14,7 @@ public class Day18 extends Task {
     }
 
     @SuppressWarnings(value = "unused")
+
     public static Day18 getInstance() {
         return instance;
     }

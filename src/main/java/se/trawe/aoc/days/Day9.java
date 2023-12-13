@@ -67,8 +67,7 @@ public class Day9 extends Task {
         }
         for(int i = allDifferences.size() - 1; i >= 0; i--) {
             int[] workingArray = allDifferences.get(i);
-            int next = workingArray[0] - first;
-            first = next;
+            first = workingArray[0] - first;
         }
         return first;
     }

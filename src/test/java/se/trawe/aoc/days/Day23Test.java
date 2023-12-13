@@ -13,7 +13,7 @@ class Day23Test {
     static {
         try {
             int dayNumber = Integer.parseInt(Day23Test.class.getSimpleName().replaceAll("\\D", ""));
-            day = Task.getTaskByDayNumber(dayNumber);
+            day = Task.getTask(dayNumber);
             testData = TestUtil.getTestDataForDay(dayNumber);
         } catch (Exception e) {
             throw new RuntimeException(e);

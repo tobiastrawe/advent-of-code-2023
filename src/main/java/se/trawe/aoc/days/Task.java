@@ -24,7 +24,7 @@ public abstract class Task implements Comparable<Task> {
     }
 
     @SuppressWarnings("ConfusingArgumentToVarargsMethod")
-    public static Task getTaskByDayNumber(int i) {
+    public static Task getTask(int i) {
         try {
             Class<?> c = Class.forName("se.trawe.aoc.days.Day" + i);
             return (Task) c.getDeclaredMethod("getInstance", null).invoke(null, null);

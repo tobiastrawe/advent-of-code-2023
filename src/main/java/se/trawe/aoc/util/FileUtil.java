@@ -4,8 +4,10 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+@SuppressWarnings("unused")
 public class FileUtil {
 
+    @SuppressWarnings("unused")
     public static void WriteToFile (String filename, char[][] screen) throws IOException {
         BufferedWriter outputWriter;
         outputWriter = new BufferedWriter(new FileWriter(filename));

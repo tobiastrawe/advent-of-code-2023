@@ -59,7 +59,7 @@ public class Day7 extends Task {
 
     enum TypeOfHand {
         FIVE_OF_A_KIND(7),
-        FOUR_OF_A_KUND(6),
+        FOUR_OF_A_KIND(6),
         FULL_HOUSE(5),
         THREE_OF_A_KIND(4),
         TWO_PAIR(3),
@@ -82,10 +82,6 @@ public class Day7 extends Task {
 
     static class HandComparator implements Comparator<Hand> {
         private final boolean jokerRules;
-
-        HandComparator() {
-            jokerRules = false;
-        }
 
         HandComparator(boolean jokerRules) {
             this.jokerRules = jokerRules;
@@ -125,7 +121,7 @@ public class Day7 extends Task {
             case 5 -> TypeOfHand.FIVE_OF_A_KIND;
             case 4 -> {
                 if (sorterAmountOfCards.stream().anyMatch(i -> i == 4)) {
-                    yield TypeOfHand.FOUR_OF_A_KUND;
+                    yield TypeOfHand.FOUR_OF_A_KIND;
                 } else {
                     yield TypeOfHand.TWO_PAIR;
                 }
@@ -145,8 +141,9 @@ public class Day7 extends Task {
                     continue;
                 }
                 List<CamelCard> copy = new ArrayList<>(cards);
-                Collections.replaceAll(copy, CamelCard.J, c);
-                possibleTypesOfHand.add(getTypeOfHand(copy));
+                if (Collections.replaceAll(copy, CamelCard.J, c)) {
+                    possibleTypesOfHand.add(getTypeOfHand(copy));
+                }
             }
         } else {
             return getTypeOfHand(cards);
@@ -170,7 +167,7 @@ public class Day7 extends Task {
             List<CamelCard> cards = getCards(split[0]);
             hands.add(new Hand(cards, Integer.parseInt(split[1]), getTypeOfHand(cards)));
         }
-        hands.sort(new HandComparator());
+        hands.sort(new HandComparator(false));
         int rank = 1;
         long totalValue = 0;
         for (Hand h : hands) {

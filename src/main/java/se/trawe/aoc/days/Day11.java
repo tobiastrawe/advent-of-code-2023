@@ -3,7 +3,6 @@ package se.trawe.aoc.days;
 import se.trawe.aoc.util.ArrayUtil;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
@@ -31,15 +30,26 @@ public class Day11 extends Task {
 
     @Override
     protected String runTaskOne(List<String> input) {
-        char[][] universe = getUniverseScreen(input);
+        var result = manhattanStepsForUniverse(input, 1);
+        return String.valueOf(result/2);
+    }
+
+    @Override
+    protected String runTaskTwo(List<String> input) {
+        var result = manhattanStepsForUniverse(input, 1000000 - 1);
+        return String.valueOf(result/2);
+    }
+
+    private long manhattanStepsForUniverse(List<String> input, int extraSteps) {
+        char[][] universe = ArrayUtil.convertListOfStringsToCharArray(input);
         List<Integer> expandX = generateIndices(universe);
         List<Integer> expandY = generateIndices(ArrayUtil.rotateCW(universe));
         Set<Point> coordinates = ArrayUtil.getCoordinatesForCharacter(universe, '#');
         var result = 0L;
         for (Point p : coordinates) {
-            result += coordinates.stream().filter(c -> !c.equals(p)).mapToLong(c -> manhattanDistanceUniverse(p, c, expandY, expandX, 1)).sum();
+            result += coordinates.stream().filter(c -> !c.equals(p)).mapToLong(c -> manhattanDistanceForUniverse(p, c, expandY, expandX, extraSteps)).sum();
         }
-        return String.valueOf(result/2);
+        return result;
     }
 
     private static List<Integer> generateIndices(char[][] universe) {
@@ -53,32 +63,7 @@ public class Day11 extends Task {
         return expandX;
     }
 
-    @Override
-    protected String runTaskTwo(List<String> input) {
-        char[][] universe = getUniverseScreen(input);
-        List<Integer> expandX = generateIndices(universe);
-        List<Integer> expandY = generateIndices(ArrayUtil.rotateCW(universe));
-        Set<Point> coordinates = ArrayUtil.getCoordinatesForCharacter(universe, '#');
-        var result = 0L;
-        for (Point p : coordinates) {
-            result += coordinates.stream().filter(c -> !c.equals(p)).mapToLong(c ->
-                    manhattanDistanceUniverse(p, c, expandY, expandX, 1000000-1)).sum();
-        }
-        return String.valueOf(result/2);
-    }
-
-    private static char[][] getUniverseScreen(List<String> input) {
-        char[][] universe = new char[input.size()][input.get(0).length()];
-        for (int y = 0; y < input.size(); y++) {
-            String row = input.get(y);
-            for (int x = 0; x < row.length(); x++) {
-                universe[y][x] = row.charAt(x);
-            }
-        }
-        return universe;
-    }
-
-    private long manhattanDistanceUniverse(Point p, Point c, List<Integer> expandY, List<Integer> expandX, long extraSteps) {
+    private long manhattanDistanceForUniverse(Point p, Point c, List<Integer> expandY, List<Integer> expandX, long extraSteps) {
         return (Math.abs(p.x - c.x) + (numbersIntersecting(p.x, c.x, expandY) * extraSteps)) + (Math.abs(p.y - c.y) + (numbersIntersecting(p.y, c.y, expandX) * extraSteps));
     }
 

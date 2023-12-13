@@ -1,9 +1,8 @@
 package se.trawe.aoc.util;
 
-import se.trawe.aoc.days.Day10;
-
 import java.awt.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Stack;
 import java.util.Set;
 
@@ -52,5 +51,16 @@ public class ArrayUtil {
             stack.push(new int[]{x, y + 1});
             stack.push(new int[]{x, y - 1});
         }
+    }
+
+    public static char[][] convertListOfStringsToCharArray(List<String> input) {
+        char[][] universe = new char[input.size()][input.get(0).length()];
+        for (int y = 0; y < input.size(); y++) {
+            String row = input.get(y);
+            for (int x = 0; x < row.length(); x++) {
+                universe[y][x] = row.charAt(x);
+            }
+        }
+        return universe;
     }
 }
