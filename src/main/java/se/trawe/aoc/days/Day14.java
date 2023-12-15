@@ -1,13 +1,10 @@
 package se.trawe.aoc.days;
 
 import se.trawe.aoc.util.ArrayUtil;
-import se.trawe.aoc.util.MathUtil;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Day14 extends Task {
 
@@ -46,8 +43,8 @@ public class Day14 extends Task {
                 } else if (boulderArray[y][x] == 'O') {
                     if (emptySpace > 0) {
                         boulderArray[y][x] = '.';
-                        boulderArray[y-emptySpace][x] = 'O';
-                        boulderPositions.add(new Point(x, y-emptySpace));
+                        boulderArray[y - emptySpace][x] = 'O';
+                        boulderPositions.add(new Point(x, y - emptySpace));
                     } else {
                         boulderPositions.add(new Point(x, y));
                     }
@@ -61,10 +58,12 @@ public class Day14 extends Task {
 
     @Override
     protected String runTaskTwo(List<String> input) {
+        var iterations = 1000000000;
         char[][] boulderArray = ArrayUtil.convertListOfStringsToCharArray(input);
-        List<Long> resultList = new ArrayList<>();
-        List<Long> repeatList = new ArrayList<>();
-        for (long i = 0; i < 1000000000; i++) {
+        Map<Set<Point>, Integer> repeatMap = new HashMap<>();
+        var isRepeating = false;
+        List<Integer> repeatingList = new ArrayList<>();
+        for (int i = 0; i < iterations; i++) {
             for (int cycle = 0; cycle < 4; cycle++) {
                 moveBoulders(boulderArray);
                 boulderArray = ArrayUtil.rotateCW(boulderArray);
@@ -73,14 +72,24 @@ public class Day14 extends Task {
             for (int y = 0; y < boulderArray.length; y++) {
                 for (int x = 0; x < boulderArray[y].length; x++) {
                     if (boulderArray[y][x] == 'O') {
-                         boulderPositions.add(new Point(x, y));
+                        boulderPositions.add(new Point(x, y));
                     }
                 }
             }
             char[][] finalBoulderArray = boulderArray;
-            resultList.add(boulderPositions.stream().mapToLong(p -> finalBoulderArray.length - p.y).sum());
-            if (1000000000 % (i+1) == 0) {
-                System.out.println(boulderPositions.stream().mapToLong(p -> finalBoulderArray.length - p.y).sum());}
+            var result = boulderPositions.stream().mapToInt(p -> finalBoulderArray.length - p.y).sum();
+            if (isRepeating) {
+                if (repeatingList.contains(result)) {
+                    var targetIndex = (iterations - i - repeatingList.size() - 1) % repeatingList.size();
+                    return String.valueOf(repeatingList.get(targetIndex));
+                } else {
+                    repeatingList.add(result);
+                }
+            } else if (repeatMap.containsKey(boulderPositions)) {
+                isRepeating = true;
+            } else {
+                repeatMap.put(boulderPositions, i);
+            }
         }
         return "no result";
     }

@@ -15,4 +15,4 @@ task-one:
   expected: "136"
 
 task-two:
-  expected: ""
+  expected: "64"
