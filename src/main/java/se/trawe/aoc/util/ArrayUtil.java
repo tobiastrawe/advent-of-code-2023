@@ -1,10 +1,8 @@
 package se.trawe.aoc.util;
 
 import java.awt.*;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.Stack;
-import java.util.Set;
 
 public class ArrayUtil {
 
@@ -19,6 +17,14 @@ public class ArrayUtil {
             }
         }
         return coordinates;
+    }
+
+    public static char[][] copy(char[][] src) {
+        char[][] dst = new char[src.length][];
+        for (int i = 0; i < src.length; i++) {
+            dst[i] = Arrays.copyOf(src[i], src[i].length);
+        }
+        return dst;
     }
 
     public static char[][] rotateCW(char[][] mat) {
