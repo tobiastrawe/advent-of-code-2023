@@ -1,0 +1,18 @@
+data: |
+  broadcaster -> a, b, c
+  %a -> b
+  %b -> c
+  %c -> inv
+  &inv -> a
+  
+  broadcaster -> a
+  %a -> inv, con
+  &inv -> b
+  %b -> con
+  &con -> output
+
+task-one:
+  expected: "11687500"
+
+task-two:
+  expected: ""

@@ -22,6 +22,15 @@ public class Day20 extends Task {
         new Day20().run();
     }
 
+    private enum ModuleType {
+        BUTTON,
+        BROADCASTER,
+        FLIP_FLOP,
+        CONJUNCTION;
+    }
+
+    private record Module(ModuleType type, List<String> targets) {}
+
     @Override
     protected String runTaskOne(List<String> input) {
         return "no result";

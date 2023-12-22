@@ -41,6 +41,8 @@ public class Day16 extends Task {
         }
     }
 
+
+
     private class Beam {
         private Point position;
         private Direction direction;

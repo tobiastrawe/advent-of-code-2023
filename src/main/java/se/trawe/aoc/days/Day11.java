@@ -1,12 +1,12 @@
 package se.trawe.aoc.days;
 
 import se.trawe.aoc.util.ArrayUtil;
+import se.trawe.aoc.util.ArrayUtil.Point;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Set;
 import java.util.List;
+import java.util.Set;
 
 public class Day11 extends Task {
 
@@ -44,7 +44,7 @@ public class Day11 extends Task {
         char[][] universe = ArrayUtil.convertListOfStringsToCharArray(input);
         List<Integer> expandX = generateIndices(universe);
         List<Integer> expandY = generateIndices(ArrayUtil.rotateCW(universe));
-        Set<Point> coordinates = ArrayUtil.getCoordinatesForCharacter(universe, '#');
+        Set<ArrayUtil.Point> coordinates = ArrayUtil.getCoordinatesForCharacter(universe, '#');
         var result = 0L;
         for (Point p : coordinates) {
             result += coordinates.stream().filter(c -> !c.equals(p)).mapToLong(c -> manhattanDistanceForUniverse(p, c, expandY, expandX, extraSteps)).sum();
@@ -64,7 +64,7 @@ public class Day11 extends Task {
     }
 
     private long manhattanDistanceForUniverse(Point p, Point c, List<Integer> expandY, List<Integer> expandX, long extraSteps) {
-        return (Math.abs(p.x - c.x) + (numbersIntersecting(p.x, c.x, expandY) * extraSteps)) + (Math.abs(p.y - c.y) + (numbersIntersecting(p.y, c.y, expandX) * extraSteps));
+        return (Math.abs(p.x() - c.x()) + (numbersIntersecting(p.x(), c.x(), expandY) * extraSteps)) + (Math.abs(p.y() - c.y()) + (numbersIntersecting(p.y(), c.y(), expandX) * extraSteps));
     }
 
     private int numbersIntersecting(int n1, int n2, List<Integer> numbers) {
