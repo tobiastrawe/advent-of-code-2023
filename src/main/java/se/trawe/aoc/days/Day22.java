@@ -104,8 +104,8 @@ public class Day22 extends Task {
     }
 
     private void generateScreen() {
-        xz = new char[10][10];
-        yz = new char[10][10];
+        xz = new char[500][500];
+        yz = new char[500][500];
         for (char[] r : xz) {
             Arrays.fill(r, '.');
         }

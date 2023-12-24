@@ -15,6 +15,15 @@ public class ArrayUtil {
         Direction(int dx, int dy) {
             this.deltaPoint = new Point(dx, dy);
         }
+
+        public Direction getOppositeDirection() {
+            return switch (this) {
+                case UP -> DOWN;
+                case DOWN -> UP;
+                case LEFT -> RIGHT;
+                case RIGHT -> LEFT;
+            };
+        }
     }
 
     public record Point(int x, int y) {
